@@ -2,6 +2,7 @@ package parser
 
 import (
 	"encoding/xml"
+	"fmt"
 	"html/template"
 )
 
@@ -49,4 +50,27 @@ func Parse(body string) ParseResult {
 		Result: result,
 		Error:  err,
 	}
+}
+
+func (r Rss2) String() string {
+	return fmt.Sprintf(`
+Title: %s
+Link: %s
+Description: %s
+PubDate: %s
+Item: %s
+`, r.Title, r.Link, r.Description, r.PubDate, r.ItemList)
+}
+
+func (i Item) String() string {
+	return fmt.Sprintf(`
+[		
+	Title: %s
+	Link: %s
+	Description: %s
+	Content: %s
+	PubDate: %s
+	Comments: %s
+]
+`, i.Title, i.Link, i.Description, i.Content, i.PubDate, i.Comments)
 }
