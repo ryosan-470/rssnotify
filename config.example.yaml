@@ -1,0 +1,12 @@
+notifier:
+  slack:
+    hooks: "https://hooks.slack.com/XXXX"
+    format: |
+      test format
+
+feed:
+  - url: https://example.com/feed1.xml
+    auth:
+      user: hogefuga
+      pass: password
+  - url: https://example.com/feed2.xml
