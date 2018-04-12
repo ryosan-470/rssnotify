@@ -1,0 +1,14 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/golang:1.10
+    working_directory: /go/src/github.com/ryosan-470/rssnotifier
+
+    steps:
+      - checkout
+      - run: curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+      - run: dep ensure
+      - run: make test
+      - run: ./.circleci/coverage.sh
+      - run: bash <(curl -s https://codecov.io/bash)
