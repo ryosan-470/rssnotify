@@ -24,20 +24,21 @@ func TestLoadFile(t *testing.T) {
 			cfg: Config{
 				Notifier: Notifier{
 					Slack: SlackNotifier{
-						WebHookUrl: "https://hooks.slack.com/XXXX",
-						Format:     "test format\n",
+						Token:    "xoxb-XXXX",
+						Channel:  "test-channel",
+						Template: "test format\n",
 					},
 				},
 				Feed: []Feed{
 					Feed{
-						Url: "https://example.com/feed1.xml",
+						URL: "https://example.com/feed1.xml",
 						Auth: BasicAuth{
 							User: "hogefuga",
 							Pass: "password",
 						},
 					},
 					Feed{
-						Url:  "https://example.com/feed2.xml",
+						URL:  "https://example.com/feed2.xml",
 						Auth: BasicAuth{},
 					},
 				},
@@ -51,7 +52,7 @@ func TestLoadFile(t *testing.T) {
 	for _, testCase := range testCases {
 		err := cfg.LoadFile(testCase.file)
 		if !reflect.DeepEqual(cfg, testCase.cfg) {
-			t.Errorf("got %q but want %q", cfg, testCase.cfg)
+			t.Errorf("got \n%q\n but want \n%q", cfg, testCase.cfg)
 		}
 		if (err == nil) != testCase.ok {
 			t.Errorf("got error %q", err)
@@ -72,7 +73,7 @@ func TestValidation(t *testing.T) {
 			contents: []byte(`
 notifier:
   slack:
-    hooks: "https://google.com"
+    token: "xoxb-XXXX"
 `),
 			expected: "feed is missing",
 		},

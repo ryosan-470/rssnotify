@@ -1,7 +1,8 @@
 notifier:
   slack:
-    hooks: "https://hooks.slack.com/XXXX"
-    format: |
+    token: "xoxb-XXXX"
+    channel: "test-channel"
+    template: |
       test format
 
 feed:

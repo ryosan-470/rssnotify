@@ -23,13 +23,14 @@ type Notifier struct {
 
 // SlackNotifier is a notifier for Slack
 type SlackNotifier struct {
-	WebHookUrl string `yaml:"hooks"`
-	Format     string `yaml:"format"`
+	Token    string `yaml:"token"`
+	Channel  string `yaml:"channel"`
+	Template string `yaml:"template"`
 }
 
 // Feed is a RSS feed links
 type Feed struct {
-	Url  string    `yaml:"url"`
+	URL  string    `yaml:"url"`
 	Auth BasicAuth `yaml:"auth"` // optional
 }
 
