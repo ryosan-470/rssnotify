@@ -19,7 +19,7 @@ type Client struct {
 }
 
 // NewClient generate a client to read RSS feed
-func NewRssClient(cfg Config) (*Client, error) {
+func NewClient(cfg Config) (*Client, error) {
 	c := &Client{
 		client: &http.Client{},
 	}
