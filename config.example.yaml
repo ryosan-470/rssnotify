@@ -11,3 +11,5 @@ feed:
       user: hogefuga
       pass: password
   - url: https://example.com/feed2.xml
+
+interval: 5
