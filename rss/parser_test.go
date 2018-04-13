@@ -1,4 +1,4 @@
-package parser
+package rss
 
 import (
 	"bytes"
