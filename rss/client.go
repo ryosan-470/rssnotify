@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
+	"github.com/mmcdole/gofeed"
 	"github.com/ryosan-470/rssnotify/config"
 )
 
@@ -39,7 +40,7 @@ func NewClient(cfg Config) (*Client, error) {
 }
 
 // GetRss is mapping to object RSS
-func (c *Client) GetRss() (Rss2, error) {
+func (c *Client) GetRss() (gofeed.Feed, error) {
 	resp, err := c.client.Do(c.request)
 	if err != nil {
 		return Rss2{}, err
