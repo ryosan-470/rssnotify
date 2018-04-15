@@ -14,12 +14,15 @@ func (c *Client) PostMessageWithAttachments(attachments []slack.Attachment) erro
 
 // Attachments return []slack.Attachment
 func (c *Client) Attachments() []slack.Attachment {
-	item := c.Config.Feed
-	attachment := slack.Attachment{
-		Title:     item.Title,
-		TitleLink: item.Link,
-		Text:      string(item.Description),
+	attachments := make([]slack.Attachment, 10)
+	for _, item := range c.Config.Item {
+		attachment := slack.Attachment{
+			Title:      item.Title,
+			TitleLink:  item.Link,
+			Text:       item.Description,
+			AuthorName: item.DublinCoreExt.Creator[0],
+		}
+		attachments = append(attachments, attachment)
 	}
-	attachments := []slack.Attachment{attachment}
 	return attachments
 }

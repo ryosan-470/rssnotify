@@ -20,7 +20,7 @@ type Config struct {
 	Channel string
 	Botname string
 	Message string
-	Feed    gofeed.Feed
+	Item    []gofeed.Item
 }
 
 // NewClient returns Client initialized with Config

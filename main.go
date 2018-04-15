@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
+	"github.com/mmcdole/gofeed"
 	"github.com/ryosan-470/rssnotify/config"
 	"github.com/ryosan-470/rssnotify/notifier/slack"
 	"github.com/ryosan-470/rssnotify/rss"
@@ -34,15 +36,16 @@ func loadConfig() error {
 	if err = cfg.Validation(); err != nil {
 		return fmt.Errorf("validation error occured: %v", err)
 	}
+
 	return nil
 }
 
-func post(item rss.Item) error {
+func post(item []gofeed.Item) error {
 	c := slack.Config{
 		Token:   cfg.Notifier.Slack.Token,
 		Channel: cfg.Notifier.Slack.Channel,
 		Botname: name,
-		Rss:     item,
+		Item:    item,
 	}
 	slackClient, err := slack.NewClient(c)
 	if err != nil {
@@ -54,20 +57,22 @@ func post(item rss.Item) error {
 	return err
 }
 
-func retriveOneRssFeed(feed config.Feed) (rss.Item, error) {
+func retrive(feed config.Feed) ([]gofeed.Item, error) {
 	c := rss.Config{
 		Feed: feed,
 	}
+
 	rssClient, err := rss.NewClient(c)
 	if err != nil {
-		return rss.Item{}, fmt.Errorf("Cannot create rss client")
+		return []gofeed.Item{}, fmt.Errorf("error: while creating rss.NewClient %s", err)
 	}
 	r, err := rssClient.GetRss()
 	if err != nil {
-		return rss.Item{}, fmt.Errorf("Cannot get RSS feed")
+		return []gofeed.Item{}, fmt.Errorf("error: while executing GetRss %s", err)
 	}
-	// 現状は面倒なので1つだけ返すようにしている
-	return r.ItemList[0], nil
+	items := r.Items
+	ret := FilterWithDublinCore(items, time.Now())
+	return ret, nil
 }
 
 func main() {
@@ -77,13 +82,14 @@ func main() {
 	}
 
 	for _, feed := range cfg.Feed {
-		item, err := retriveOneRssFeed(feed)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		if err = post(item); err != nil {
-			log.Fatal(err)
+		item, _ := retrive(feed)
+		if len(item) != 0 {
+			if err = post(item); err != nil {
+				log.Fatal(err)
+			}
+			log.Printf("Post: %v\n", item)
+		} else {
+			log.Printf("Feed: %s is not updated\n", feed.URL)
 		}
 	}
 }
