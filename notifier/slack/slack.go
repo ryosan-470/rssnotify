@@ -14,7 +14,7 @@ func (c *Client) PostMessageWithAttachments(attachments []slack.Attachment) erro
 
 // Attachments return []slack.Attachment
 func (c *Client) Attachments() []slack.Attachment {
-	item := c.Config.Rss
+	item := c.Config.Feed
 	attachment := slack.Attachment{
 		Title:     item.Title,
 		TitleLink: item.Link,

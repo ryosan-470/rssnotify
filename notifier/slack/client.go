@@ -4,8 +4,8 @@ import (
 	"errors"
 	"os"
 
+	"github.com/mmcdole/gofeed"
 	"github.com/nlopes/slack"
-	"github.com/ryosan-470/rssnotify/rss"
 )
 
 // Client is a API client for Slack
@@ -20,7 +20,7 @@ type Config struct {
 	Channel string
 	Botname string
 	Message string
-	Rss     rss.Item
+	Feed    gofeed.Feed
 }
 
 // NewClient returns Client initialized with Config
