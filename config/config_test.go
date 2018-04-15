@@ -42,7 +42,7 @@ func TestLoadFile(t *testing.T) {
 						Auth: BasicAuth{},
 					},
 				},
-				Interval: "5",
+				Interval: 5,
 				path:     "../config.example.yaml",
 			},
 			ok: true,

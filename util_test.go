@@ -127,7 +127,7 @@ func TestFilterWithDublinCore(t *testing.T) {
 	}
 
 	cfg = config.Config{
-		Interval: "5",
+		Interval: 5,
 	}
 
 	for _, testCase := range testCases {

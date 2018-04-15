@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-	"strconv"
 	"time"
 
 	"github.com/mmcdole/gofeed"
@@ -24,7 +22,6 @@ func IsUpdated(interval int, updated, now time.Time) bool {
 	t := time.Duration(interval) * time.Minute
 	past := now.Add(-t)
 	// past < updated < now
-	fmt.Println(past)
 	return updated.After(past) && updated.Before(now)
 }
 
@@ -38,9 +35,7 @@ func FilterWithDublinCore(items []gofeed.Item, now time.Time) []gofeed.Item {
 	for _, item := range items {
 		date := item.DublinCoreExt.Date[0]
 		t, _ := time.Parse("2006-01-02T15:04:05Z", date)
-		interval, _ := strconv.ParseInt(cfg.Interval, 10, 0)
-		fmt.Printf("IsUpdated(%v, %v, %v)\n", interval, t, now)
-		if IsUpdated(int(interval), t, now) {
+		if IsUpdated(cfg.Interval, t, now) {
 			ret = append(ret, item)
 		}
 	}

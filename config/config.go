@@ -12,7 +12,7 @@ import (
 type Config struct {
 	Notifier Notifier `yaml:"notifier"`
 	Feed     []Feed   `yaml:"feed"`
-	Interval string   `yaml:"interval"` // Interval time (min)
+	Interval int      `yaml:"interval"` // Interval time (min)
 	path     string
 }
 
