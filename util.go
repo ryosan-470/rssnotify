@@ -26,7 +26,7 @@ func IsUpdated(interval int, updated, now time.Time) bool {
 }
 
 // FilterWithDublinCore は Itemのうち、インターバル時間以内のものだけを取り出す
-func FilterWithDublinCore(items []gofeed.Item, now time.Time) []gofeed.Item {
+func FilterWithDublinCore(items []*gofeed.Item, now time.Time) []gofeed.Item {
 	ret := []gofeed.Item{}
 	if len(items) == 0 {
 		return ret
@@ -36,7 +36,7 @@ func FilterWithDublinCore(items []gofeed.Item, now time.Time) []gofeed.Item {
 		date := item.DublinCoreExt.Date[0]
 		t, _ := time.Parse("2006-01-02T15:04:05Z", date)
 		if IsUpdated(cfg.Interval, t, now) {
-			ret = append(ret, item)
+			ret = append(ret, *item)
 		}
 	}
 	return ret

@@ -67,17 +67,17 @@ func TestIsUpdated(t *testing.T) {
 func TestFilterWithDublinCore(t *testing.T) {
 	loc, _ := time.LoadLocation("UTC")
 	testCases := []struct {
-		items    []gofeed.Item
+		items    []*gofeed.Item
 		now      time.Time
 		expected int
 	}{
 		{
-			items:    []gofeed.Item{},
+			items:    []*gofeed.Item{},
 			now:      time.Date(2000, time.January, 1, 0, 0, 0, 0, loc),
 			expected: 0,
 		},
 		{
-			items: []gofeed.Item{
+			items: []*gofeed.Item{
 				{
 					DublinCoreExt: &ext.DublinCoreExtension{
 						Date: []string{"1999-12-31T23:55:00Z"},
@@ -88,7 +88,7 @@ func TestFilterWithDublinCore(t *testing.T) {
 			expected: 0,
 		},
 		{
-			items: []gofeed.Item{
+			items: []*gofeed.Item{
 				{
 					DublinCoreExt: &ext.DublinCoreExtension{
 						Date: []string{"2000-01-01T00:00:00Z"},
@@ -99,7 +99,7 @@ func TestFilterWithDublinCore(t *testing.T) {
 			expected: 0,
 		},
 		{
-			items: []gofeed.Item{
+			items: []*gofeed.Item{
 				{
 					DublinCoreExt: &ext.DublinCoreExtension{
 						Date: []string{"1999-12-31T23:55:00Z"},
