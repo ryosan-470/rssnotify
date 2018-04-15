@@ -1,7 +1,6 @@
 package rss
 
 import (
-	"io/ioutil"
 	"net/http"
 
 	"github.com/mmcdole/gofeed"
@@ -40,21 +39,17 @@ func NewClient(cfg Config) (*Client, error) {
 }
 
 // GetRss is mapping to object RSS
-func (c *Client) GetRss() (gofeed.Feed, error) {
+func (c *Client) GetRss() (*gofeed.Feed, error) {
 	resp, err := c.client.Do(c.request)
 	if err != nil {
-		return Rss2{}, err
+		return &gofeed.Feed{}, err
 	}
 
-	body, err := ioutil.ReadAll(resp.Body)
+	fp := gofeed.Parser{}
+	ret, err := fp.Parse(resp.Body)
 	if err != nil {
-		return Rss2{}, err
+		return &gofeed.Feed{}, err
 	}
 
-	ret := Parse(string(body))
-	if ret.Error != nil {
-		return Rss2{}, err
-	}
-
-	return ret.Result, nil
+	return ret, nil
 }
