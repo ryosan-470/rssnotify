@@ -54,6 +54,12 @@ func TestIsUpdated(t *testing.T) {
 			now:      time.Date(2000, time.January, 1, 0, 5, 0, 1, loc),
 			expected: false,
 		},
+		{
+			interval: 5,
+			updated:  time.Date(2000, time.January, 1, 0, 0, 0, 0, loc),
+			now:      time.Date(1999, time.December, 31, 23, 59, 59, 99, loc),
+			expected: false,
+		},
 	}
 
 	for _, testCase := range testCases {
