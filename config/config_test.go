@@ -20,6 +20,13 @@ func TestLoadFile(t *testing.T) {
 		ok   bool
 	}{
 		{
+			file: "no-such-file.yaml",
+			cfg: Config{
+				path: "no-such-file.yaml",
+			},
+			ok: false,
+		},
+		{
 			file: "../config.example.yaml",
 			cfg: Config{
 				Notifier: Notifier{
@@ -77,6 +84,15 @@ notifier:
     token: "xoxb-XXXX"
 `),
 			expected: "feed is missing",
+		},
+		{
+			contents: []byte(`
+notifier:
+  slack:
+    token: "xoxb-XXXX"
+feed:
+  - url: http://example.com
+`),
 		},
 	}
 
