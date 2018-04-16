@@ -47,9 +47,5 @@ func (c *Client) GetRss() (*gofeed.Feed, error) {
 
 	fp := gofeed.Parser{}
 	ret, err := fp.Parse(resp.Body)
-	if err != nil {
-		return &gofeed.Feed{}, err
-	}
-
-	return ret, nil
+	return ret, err
 }
