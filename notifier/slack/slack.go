@@ -1,6 +1,8 @@
 package slack
 
-import "github.com/nlopes/slack"
+import (
+	"github.com/nlopes/slack"
+)
 
 // PostMessageWithAttachments sends to Slack with attachments
 func (c *Client) PostMessageWithAttachments(attachments []slack.Attachment) error {
@@ -14,7 +16,7 @@ func (c *Client) PostMessageWithAttachments(attachments []slack.Attachment) erro
 
 // Attachments return []slack.Attachment
 func (c *Client) Attachments() []slack.Attachment {
-	attachments := make([]slack.Attachment, 10)
+	var attachments []slack.Attachment
 	for _, item := range c.Config.Item {
 		attachment := slack.Attachment{
 			Title:      item.Title,
