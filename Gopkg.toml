@@ -26,6 +26,14 @@
 
 
 [[constraint]]
+  name = "github.com/mmcdole/gofeed"
+  version = "1.0.0-beta2"
+
+[[constraint]]
+  name = "github.com/nlopes/slack"
+  version = "0.2.0"
+
+[[constraint]]
   name = "gopkg.in/yaml.v2"
   version = "2.2.1"
 
