@@ -70,8 +70,9 @@ func retrive(feed config.Feed) ([]gofeed.Item, error) {
 	if err != nil {
 		return []gofeed.Item{}, fmt.Errorf("error: while executing GetRss %s", err)
 	}
-	items := r.Items
-	ret := FilterWithDublinCore(items, time.Now())
+	loc, _ := time.LoadLocation("UTC")
+	now := time.Now().In(loc)
+	ret := FilterWithDublinCore(r.Items, now)
 	return ret, nil
 }
 
