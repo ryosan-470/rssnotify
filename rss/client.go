@@ -24,11 +24,7 @@ func NewClient(cfg Config) (*Client, error) {
 		client: &http.Client{},
 	}
 
-	req, err := http.NewRequest("GET", cfg.Feed.URL, nil)
-	if err != nil {
-		return &Client{}, err
-	}
-
+	req, _ := http.NewRequest("GET", cfg.Feed.URL, nil)
 	auth := cfg.Feed.Auth
 	if auth.User != "" && auth.Pass != "" {
 		req.SetBasicAuth(auth.User, auth.Pass)

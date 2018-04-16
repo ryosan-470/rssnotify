@@ -29,6 +29,17 @@ func TestNewClient(t *testing.T) {
 			},
 			ok: true,
 		},
+		{
+			cfg: Config{
+				Feed: config.Feed{
+					URL: "https://example.com",
+					Auth: config.BasicAuth{
+						User: "admin",
+						Pass: "pass",
+					},
+				},
+			},
+		},
 	}
 
 	for _, testCase := range testCases {
