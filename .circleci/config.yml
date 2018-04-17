@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  test:
     docker:
       - image: circleci/golang:1.10
     working_directory: /go/src/github.com/ryosan-470/rssnotify
@@ -12,3 +12,39 @@ jobs:
       - run: make test
       - run: ./.circleci/coverage.sh
       - run: bash <(curl -s https://codecov.io/bash)
+
+  build_and_push:
+    docker:
+      - image: docker:18.01-ce-git
+    environment:
+      - TAG: jtwp470/rssnotify
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Login Docker Hub
+          command: docker login -u ${DOCKERHUB_USER} -p ${DOCKERHUB_PASSWORD}
+      - run:
+          name: Build Docker image
+          command: |
+            docker build --cache-from ${TAG} -t ${TAG}
+      - deploy:
+          name: Push to Docker Hub
+          command: |
+            docker push ${TAG}
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test
+  build-and-push:
+    jobs:
+      - test
+      - build_and_push:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
