@@ -12,4 +12,4 @@ FROM alpine
 RUN apk --no-cache add ca-certificates
 WORKDIR /root
 COPY --from=0 /go/src/github.com/ryosan-470/rssnotify/notify .
-CMD ["./notify"]
+ENTRYPOINT [ "/root/notify" ]

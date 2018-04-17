@@ -1,0 +1,24 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: rssnotify
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: rssnotify
+            image: jtwp470/rssnotify
+            env:
+            - name: RSS_NOTIFY_CONFIG_PATH
+              value: "/etc/rssnotify/config.yaml"
+            volumeMounts:
+            - name: rssnotify-config
+              mountPath: /etc/rssnotify
+          restartPolicy: Never
+          volumes:
+            - name: rssnotify-config
+              configMap:
+                name: rssnotify-configmap
