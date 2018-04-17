@@ -15,7 +15,7 @@ jobs:
 
   build_and_push:
     docker:
-      - image: docker:18.01-ce-git
+      - image: docker:18.04.0-ce-git
     environment:
       - TAG: jtwp470/rssnotify
     steps:
