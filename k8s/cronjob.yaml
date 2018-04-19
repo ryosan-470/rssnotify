@@ -17,8 +17,9 @@ spec:
             volumeMounts:
             - name: rssnotify-config
               mountPath: /etc/rssnotify
+              readOnly: true
           restartPolicy: Never
           volumes:
             - name: rssnotify-config
-              configMap:
-                name: rssnotify-configmap
+              secret:
+                secretName: rssnotify-config-secret
