@@ -1,13 +1,13 @@
 # Running on Kubernetes
 
-1. You must create a configuration file like `config.yaml` and create `ConfigMap` like this:
+1. You must create a configuration file like `config.yaml` and create `secret` like this:
 ```console
-% kubectl create configmap rssnotify-configmap --from-file config.yaml
+% make create-secret
 ```
 
 1. Deploy a cronjob
 ```console
-% kubectl create -f ./cronjob.yaml
+% make deploy
 ```
 
 ## Configuration
