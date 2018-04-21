@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-	"os"
 	"time"
 
 	"github.com/mmcdole/gofeed"
@@ -22,23 +21,6 @@ var (
 	cfg         config.Config
 	slackClient slack.Client
 )
-
-func loadConfig() error {
-	path := os.Getenv("RSS_NOTIFY_CONFIG_PATH")
-	if path == "" {
-		path = "config.yaml"
-	}
-	err := cfg.LoadFile(path)
-	if err != nil {
-		return fmt.Errorf("while executing LoadFile path: %s", path)
-	}
-
-	if err = cfg.Validation(); err != nil {
-		return fmt.Errorf("validation error occured: %v", err)
-	}
-
-	return nil
-}
 
 func post(item []gofeed.Item) error {
 	c := slack.Config{

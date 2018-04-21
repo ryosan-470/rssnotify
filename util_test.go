@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"testing"
 	"time"
 
@@ -140,6 +141,40 @@ func TestFilterWithDublinCore(t *testing.T) {
 		actual := len(FilterWithDublinCore(testCase.items, testCase.now))
 		if actual != testCase.expected {
 			t.Errorf("\ngot %v\nwant %v", actual, testCase.expected)
+		}
+	}
+}
+
+func TestLoadConfig(t *testing.T) {
+	testCases := []struct {
+		f  func()
+		ok bool
+	}{
+		{
+			f: func() {
+				os.Setenv("RSS_NOTIFY_CONFIG_PATH", "config.example.yaml")
+			},
+			ok: true,
+		},
+		{
+			f: func() {
+				os.Setenv("RSS_NOTIFY_CONFIG_PATH", "nothing.yaml")
+			},
+			ok: false,
+		},
+		{
+			f: func() {
+				_ = os.Unsetenv("RSS_NOTIFY_CONFIG_PATH")
+			},
+			ok: false,
+		},
+	}
+
+	for _, testCase := range testCases {
+		testCase.f()
+		err := loadConfig()
+		if (err == nil) != testCase.ok {
+			t.Errorf("%s", err)
 		}
 	}
 }

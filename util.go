@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"os"
 	"time"
 
 	"github.com/mmcdole/gofeed"
@@ -40,4 +42,22 @@ func FilterWithDublinCore(items []*gofeed.Item, now time.Time) []gofeed.Item {
 		}
 	}
 	return ret
+}
+
+// loadConfig reads config from config.yaml
+func loadConfig() error {
+	path := os.Getenv("RSS_NOTIFY_CONFIG_PATH")
+	if path == "" {
+		path = "config.yaml"
+	}
+	err := cfg.LoadFile(path)
+	if err != nil {
+		return fmt.Errorf("while executing LoadFile path: %s", path)
+	}
+
+	if err = cfg.Validation(); err != nil {
+		return fmt.Errorf("validation error occured: %v", err)
+	}
+
+	return nil
 }
