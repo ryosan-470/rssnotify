@@ -30,8 +30,9 @@ type SlackNotifier struct {
 
 // Feed is a RSS feed links
 type Feed struct {
-	URL  string    `yaml:"url"`
-	Auth BasicAuth `yaml:"auth"` // optional
+	URL       string    `yaml:"url"`
+	Auth      BasicAuth `yaml:"auth"`       // optional
+	IconEmoji string    `yaml:"icon_emoji"` // optional
 }
 
 // BasicAuth is a auth config for RSS feed

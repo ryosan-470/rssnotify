@@ -12,9 +12,10 @@ import (
 )
 
 const (
-	name       = "rssnotify"
-	desciption = "Notify the RSS feed to Slack"
-	version    = "0.0.1"
+	name             = "rssnotify"
+	desciption       = "Notify the RSS feed to Slack"
+	version          = "0.0.1"
+	defaultIconEmoji = ":rocket:"
 )
 
 var (
@@ -22,7 +23,11 @@ var (
 	slackClient slack.Client
 )
 
-func post(item []gofeed.Item) error {
+func post(feed config.Feed, item []gofeed.Item) error {
+	iconEmoji := feed.IconEmoji
+	if iconEmoji == "" {
+		iconEmoji = defaultIconEmoji
+	}
 	c := slack.Config{
 		Token:   cfg.Notifier.Slack.Token,
 		Channel: cfg.Notifier.Slack.Channel,
@@ -35,7 +40,7 @@ func post(item []gofeed.Item) error {
 	}
 
 	attachments := slackClient.Attachments()
-	err = slackClient.PostMessageWithAttachments(attachments)
+	err = slackClient.PostMessageWithAttachments(attachments, iconEmoji)
 	return err
 }
 
@@ -67,7 +72,7 @@ func main() {
 	for _, feed := range cfg.Feed {
 		item, _ := retrive(feed)
 		if len(item) != 0 {
-			if err = post(item); err != nil {
+			if err = post(feed, item); err != nil {
 				log.Fatal(err)
 			}
 			log.Printf("Post: %v\n", item)
