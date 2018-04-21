@@ -5,9 +5,10 @@ import (
 )
 
 // PostMessageWithAttachments sends to Slack with attachments
-func (c *Client) PostMessageWithAttachments(attachments []slack.Attachment) error {
+func (c *Client) PostMessageWithAttachments(attachments []slack.Attachment, iconEmoji string) error {
 	param := slack.PostMessageParameters{
 		Username:    c.Config.Botname,
+		IconEmoji:   iconEmoji,
 		Attachments: attachments,
 	}
 	_, _, err := c.Client.PostMessage(c.Config.Channel, "", param)
